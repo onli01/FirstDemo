@@ -43,7 +43,6 @@ const Login: React.FC = () => {
   const fetchUserInfo = async () => {
     // const userInfo = await initialState?.fetchUserInfo?.();
     const userInfo = JSON.parse(localStorage.getItem('user') || '');
-    console.log(null == false);
     if (userInfo) {
       // 手动设置 initialState
       await setInitialState((s: any) => ({

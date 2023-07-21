@@ -1,9 +1,22 @@
+import { useModel } from 'umi';
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Card, Col, Dropdown, Radio, Row, Space } from 'antd';
 import CodeEditor from './CodeEditor';
 
-export default ({ bodyType, setBodyType, rawType, setRawType }) => {
+export default () => {
+  const { bodyType, setBodyType, rawType, setRawType, bodyValue, setBodyValue } = useModel(
+    'postman',
+    (body) => ({
+      bodyType: body.bodyType,
+      setBodyType: body.upBodyType,
+      rawType: body.rawType,
+      setRawType: body.upRawType,
+      bodyValue: body.bodyValue,
+      setBodyValue: body.upBodyValue,
+    }),
+  );
+
   const onClick: MenuProps['onClick'] = ({ key }) => {
     // message.info(`Click on item ${key}`);
     setRawType(key);
@@ -64,11 +77,11 @@ export default ({ bodyType, setBodyType, rawType, setRawType }) => {
           <Card bodyStyle={{ padding: 0 }}>
             {bodyType === 3 ? (
               <CodeEditor
-                language={undefined}
-                value={undefined}
-                onChange={undefined}
+                language={rawType}
                 height={undefined}
                 theme={undefined}
+                setValue={setBodyValue}
+                value={undefined}
               />
             ) : (
               <div style={{ height: '40vh', lineHeight: '40vh', textAlign: 'center' }}>

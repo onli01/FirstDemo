@@ -1,7 +1,19 @@
 import { DeleteTwoTone } from '@ant-design/icons';
+import { useModel } from 'umi';
 import EditTable from '../Table/EditTable';
 
-export default ({ url, setUrl, paramsData, setParamsData, editableKeys, setEditableRowKeys }) => {
+export default () => {
+  const { url, setUrl, paramsData, setParamsData, editableKeys, setEditableKeys } = useModel(
+    'postman',
+    (param) => ({
+      url: param.url,
+      setUrl: param.upUrl,
+      paramsData: param.paramsData,
+      setParamsData: param.upParamsData,
+      editableKeys: param.editableKeys,
+      setEditableKeys: param.upEditableKeys,
+    }),
+  );
   // 根据paramsData拼接url
   const joinUrl = (data: any[]) => {
     let tempUrl = url.split('?')[0];
@@ -66,7 +78,7 @@ export default ({ url, setUrl, paramsData, setParamsData, editableKeys, setEdita
       setDataSource={setParamsData}
       extra={joinUrl}
       editableKeys={editableKeys}
-      setEditableRowKeys={setEditableRowKeys}
+      setEditableRowKeys={setEditableKeys}
     />
   );
 };

@@ -1,21 +1,38 @@
 import { sendRequest } from '@/services/request/api';
 import { SendOutlined } from '@ant-design/icons';
 import { Button, Col, Input, notification, Select } from 'antd';
+import { useModel } from 'umi';
 const { Option } = Select;
 
-export default ({
-  url,
-  setUrl,
-  method,
-  setMethod,
-  setParamsData,
-  setEditableRowKeys,
-  loading,
-  setLoading,
-  headers,
-  setResponse,
-  bodyType,
-}) => {
+export default () => {
+  const {
+    url,
+    setUrl,
+    method,
+    setMethod,
+    setParamsData,
+    setEditableKeys,
+    loading,
+    setLoading,
+    headers,
+    setRespResult,
+    bodyType,
+    bodyValue,
+  } = useModel('postman', (req) => ({
+    url: req.url,
+    setUrl: req.upUrl,
+    method: req.method,
+    setMethod: req.upMethod,
+    setParamsData: req.upParamsData,
+    setEditableKeys: req.upEditableKeys,
+    loading: req.loading,
+    setLoading: req.upLoading,
+    headers: req.headers,
+    setRespResult: req.upResponse,
+    bodyType: req.bodyType,
+    bodyValue: req.bodyValue,
+  }));
+
   const selectBefore = (
     <Select
       value={method}
@@ -54,7 +71,7 @@ export default ({
         newParams.push({ key, value, id: now + idx + 10, description: '' });
       });
       setParamsData(newParams);
-      setEditableRowKeys(keys);
+      setEditableKeys(keys);
     }
   };
 
@@ -79,20 +96,20 @@ export default ({
     const params = {
       method,
       url,
-      body: null,
+      body: JSON.parse(bodyValue),
       headers: getHeaders(),
     };
     if (bodyType === 0) {
       params.body = null;
     }
-    console.log(getHeaders());
+    console.log(params);
     const res = await sendRequest(params);
     setLoading(false);
     if (res.code !== 200) {
       notification.error(res);
       return;
     }
-    setResponse(res.data);
+    setRespResult(res.data);
   };
 
   return (

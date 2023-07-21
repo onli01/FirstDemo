@@ -1,7 +1,14 @@
 import { DeleteTwoTone } from '@ant-design/icons';
+import { useModel } from 'umi';
 import EditTable from '../Table/EditTable';
 
-export default ({ headers, setHeaders, headersKeys, setHeadersKeys }) => {
+export default () => {
+  const { headers, setHeaders, headersKeys, setHeadersKeys } = useModel('postman', (header) => ({
+    headers: header.headers,
+    setHeaders: header.upHeaders,
+    headersKeys: header.headersKeys,
+    setHeadersKeys: header.upHeadersKeys,
+  }));
   const onDelete = (key: any) => {
     const data = headers.filter((item: { id: any }) => item.id !== key);
     setHeaders(data);
