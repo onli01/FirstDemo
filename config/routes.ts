@@ -9,7 +9,8 @@ export default [
       { component: './error/404' },
     ],
   },
-  { path: '/request', name: '调试页面', icon: 'rocket', component: './request/index' },
+  { path: '/request', name: '接口调试', icon: 'rocket', component: './request/index' },
+  { path: '/project', name: '项目管理', icon: 'rocket', component: './project/index' },
   {
     path: '/admin',
     name: '管理页',

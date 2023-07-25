@@ -1,5 +1,5 @@
 // import React, { useState } from 'react';
-import { Card, Row, Tabs } from 'antd';
+import { Card, Divider, Row, Tabs } from 'antd';
 import RequestParams from './RequestParams';
 import RequestHeader from './RequestHeader';
 import Request from './Request';
@@ -16,7 +16,7 @@ const Postman: React.FC = () => {
       </Row>
       <Row style={{ marginTop: 8 }}>
         <Tabs defaultActiveKey="1" style={{ width: '100%' }}>
-          <TabPane tab="Params" key="1">
+          <TabPane tab="参数" key="1">
             <RequestParams />
           </TabPane>
           <TabPane tab="Headers" key="2">

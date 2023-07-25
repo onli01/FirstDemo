@@ -78,13 +78,13 @@ export default () => {
             {bodyType === 3 ? (
               <CodeEditor
                 language={rawType}
-                height={undefined}
+                height={'30vh'}
                 theme={undefined}
                 setValue={setBodyValue}
                 value={undefined}
               />
             ) : (
-              <div style={{ height: '40vh', lineHeight: '40vh', textAlign: 'center' }}>
+              <div style={{ height: '35vh', lineHeight: '35vh', textAlign: 'center' }}>
                 This Body does not have a body
               </div>
             )}

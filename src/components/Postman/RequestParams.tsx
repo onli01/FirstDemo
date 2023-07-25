@@ -39,17 +39,17 @@ export default () => {
   const columns = () => {
     return [
       {
-        title: 'KEY',
+        title: '键',
         key: 'key',
         dataIndex: 'key',
       },
       {
-        title: 'VALUE',
+        title: '值',
         key: 'value',
         dataIndex: 'value',
       },
       {
-        title: 'DESCRIPTION',
+        title: '描述',
         key: 'description',
         dataIndex: 'description',
       },

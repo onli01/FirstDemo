@@ -11,12 +11,12 @@ export default () => {
 
   const resColumns = [
     {
-      title: 'KEY',
+      title: '键',
       dataIndex: 'key',
       key: 'key',
     },
     {
-      title: 'VALUE',
+      title: '值',
       dataIndex: 'value',
       key: 'value',
     },
