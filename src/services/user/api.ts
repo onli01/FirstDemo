@@ -23,8 +23,16 @@ export async function login(body: API.LoginParams, options?: Record<string, any>
 
 /** 退出登录接口 POST /api/login/outLogin */
 export async function outLogin(options?: Record<string, any>) {
-  return httpRequest<Record<string, any>>('/api/login/outLogin', {
+  return httpRequest<Record<string, any>>('/api/user/outLogin', {
     method: 'POST',
+    ...(options || {}),
+  });
+}
+
+/** 退出登录接口 POST /api/login/outLogin */
+export async function userList(options?: Record<string, any>) {
+  return httpRequest<Record<string, any>>('/api/user/userList', {
+    method: 'GET',
     ...(options || {}),
   });
 }

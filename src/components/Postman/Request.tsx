@@ -96,11 +96,11 @@ export default () => {
     const params = {
       method,
       url,
-      body: JSON.parse(bodyValue),
+      body: {},
       headers: getHeaders(),
     };
-    if (bodyType === 0) {
-      params.body = null;
+    if (bodyType === 3) {
+      params.body = JSON.parse(String(bodyValue));
     }
     console.log(params);
     const res = await sendRequest(params);

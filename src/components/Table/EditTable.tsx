@@ -14,7 +14,8 @@ export default ({
         columns={columns}
         rowKey="id"
         // scroll={{
-        //   x: 960,
+        //   // x: 960,
+        //   y: 500,
         // }}
         value={dataSource}
         onChange={setDataSource}

@@ -38,11 +38,22 @@ export default () => {
     400: { color: '#F56C6C', text: 'error' },
     401: { color: '#F56C6C', text: 'unAuthorized' },
     405: { color: '#F56C6C', text: 'error' },
-    415: { color: '#F56C6C', text: 'error' },
+    201: { color: '#F56C6C', text: 'error' },
+    202: { color: '#F56C6C', text: 'error' },
+    204: { color: '#F56C6C', text: 'error' },
+    403: { color: '#F56C6C', text: 'error' },
+    404: { color: '#F56C6C', text: 'error' },
+    406: { color: '#F56C6C', text: 'error' },
+    410: { color: '#F56C6C', text: 'error' },
+    422: { color: '#F56C6C', text: 'error' },
+    500: { color: '#F56C6C', text: 'error' },
+    502: { color: '#F56C6C', text: 'error' },
+    503: { color: '#F56C6C', text: 'error' },
+    504: { color: '#F56C6C', text: 'error' },
   };
 
   const tabExtra = (respResult) => {
-    return respResult ? (
+    return JSON.stringify(respResult) !== '{}' ? (
       <div style={{ marginRight: 16 }}>
         <span>
           Status:
@@ -65,36 +76,34 @@ export default () => {
 
   return (
     <>
-      {Object.keys(respResult).length === 0 ? null : (
-        <Tabs style={{ width: '100%' }} tabBarExtraContent={tabExtra(respResult)}>
-          <TabPane tab="Body" key={1}>
-            <CodeEditor
-              value={respResult.response ? JSON.stringify(respResult.response, null, 2) : ''}
-              height="30vh"
-              language={undefined}
-              setValue={undefined}
-              theme={undefined}
-            />
-          </TabPane>
-          <TabPane tab="Cookie" key={2}>
-            <Table
-              columns={resColumns}
-              dataSource={toTable('cookies')}
-              size="small"
-              pagination={false}
-            />
-          </TabPane>
+      <Tabs style={{ width: '100%' }} tabBarExtraContent={tabExtra(respResult)}>
+        <TabPane tab="Body" key={1}>
+          <CodeEditor
+            value={respResult.response ? JSON.stringify(respResult.response, null, 2) : ''}
+            height="30vh"
+            language={undefined}
+            setValue={undefined}
+            theme={undefined}
+          />
+        </TabPane>
+        <TabPane tab="Cookie" key={2}>
+          <Table
+            columns={resColumns}
+            dataSource={toTable('cookies')}
+            size="small"
+            pagination={false}
+          />
+        </TabPane>
 
-          <TabPane tab="Headers" key={3}>
-            <Table
-              columns={resColumns}
-              dataSource={toTable('response_header')}
-              size="small"
-              pagination={false}
-            />
-          </TabPane>
-        </Tabs>
-      )}
+        <TabPane tab="Headers" key={3}>
+          <Table
+            columns={resColumns}
+            dataSource={toTable('response_header')}
+            size="small"
+            pagination={false}
+          />
+        </TabPane>
+      </Tabs>
     </>
   );
 };
