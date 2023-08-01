@@ -10,7 +10,7 @@ export default [
     ],
   },
   { path: '/request', name: '接口调试', icon: 'rocket', component: './request/index' },
-  { path: '/project', name: '项目管理', icon: 'rocket', component: './project/index' },
+  { path: '/project', name: '项目管理', icon: 'book', component: './project/index' },
   {
     path: '/admin',
     name: '管理页',

@@ -35,7 +35,7 @@ const LoginMessage: React.FC<{
 );
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
+  const [userLoginState, setUserLoginState] = useState({});
   const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
 
@@ -75,8 +75,8 @@ const Login: React.FC = () => {
         });
 
         if (resp.code === 200) {
-          localStorage.setItem('token', JSON.stringify(resp.token));
-          localStorage.setItem('user', JSON.stringify(resp.data));
+          localStorage.setItem('token', JSON.stringify(resp.data.token));
+          localStorage.setItem('user', JSON.stringify(resp.data.user));
 
           const defaultLoginSuccessMessage = resp.msg;
           message.success(defaultLoginSuccessMessage);

@@ -8,14 +8,14 @@ export async function addProject(params: any) {
 }
 
 export async function getProject(params: { name: any }) {
-  return httpRequest(`/api/project/getProject`, {
+  return httpRequest(`/api/project/getProjectByName`, {
     method: 'GET',
     params: params,
   });
 }
 
-export async function projectList(options?: Record<string, any>) {
-  return httpRequest(`/api/project/projectList`, {
+export async function getProjectAll(options?: Record<string, any>) {
+  return httpRequest(`/api/project/getProjectAll`, {
     method: 'GET',
     ...(options || {}),
   });

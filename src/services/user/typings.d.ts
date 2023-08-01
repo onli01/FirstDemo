@@ -20,7 +20,11 @@ declare namespace API {
 
   type LoginResult = {
     code?: number;
-    data?: CurrentUser;
+    data?: {
+      token?: string;
+      user?: CurrentUser;
+    };
+
     // {
     //   username?: string;
     //   user_id?: number;

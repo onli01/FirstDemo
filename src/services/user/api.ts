@@ -30,8 +30,8 @@ export async function outLogin(options?: Record<string, any>) {
 }
 
 /** 退出登录接口 POST /api/login/outLogin */
-export async function userList(options?: Record<string, any>) {
-  return httpRequest<Record<string, any>>('/api/user/userList', {
+export async function getUserAll(options?: Record<string, any>) {
+  return httpRequest<Record<string, any>>('/api/user/getUserAll', {
     method: 'GET',
     ...(options || {}),
   });

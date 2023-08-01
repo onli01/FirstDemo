@@ -1,4 +1,5 @@
-import { addProject, getProject, projectList } from '@/services/project/api';
+import { addProject, getProject, getProjectAll } from '@/services/project/api';
+import { getUserAll } from '@/services/user/api';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ModalForm,
@@ -13,7 +14,8 @@ import { useEffect, useState } from 'react';
 const { Search } = Input;
 
 export default () => {
-  const [dataList, setDataList] = useState();
+  const [dataList, setDataList] = useState([]);
+  const [userList, setUserList] = useState([]);
 
   const waitTime = (time: number = 100) => {
     return new Promise((resolve) => {
@@ -25,9 +27,27 @@ export default () => {
 
   const proList = async () => {
     try {
-      const resp = await projectList();
+      const resp = await getProjectAll();
       if (resp.code === 200) {
-        setDataList(resp.data);
+        setDataList(resp.data.list);
+      } else {
+        message.error(resp.msg);
+      }
+    } catch (e) {
+      message.error(e);
+    }
+  };
+
+  const getUserList = async () => {
+    try {
+      const resp = await getUserAll();
+      if (resp.code === 200) {
+        const ulist = resp.data.list;
+        setUserList(
+          ulist.map((user: any) => {
+            return { value: user.username, label: user.username };
+          }),
+        );
       } else {
         message.error(resp.msg);
       }
@@ -64,7 +84,7 @@ export default () => {
       const resp = await getProject(params);
       console.log(params);
       if (resp.code === 200) {
-        setDataList(resp.data);
+        setDataList(resp.data.list);
         // return resp.data;
       } else {
         message.error(resp.msg);
@@ -74,19 +94,24 @@ export default () => {
     }
   };
 
-  const userOpt = [{ value: '1', label: 'admin' }];
+  // const userOpt = [{ value: '1', label: 'admin' }];
 
   return (
     <>
       <Row gutter={8} style={{ marginBottom: 16 }}>
-        <Col span={6}>
+        <Col span={4}>
           <Search placeholder="请输入项目名称" onSearch={onSearchPro} enterButton />
         </Col>
-        <Col span={18}>
+        <Col span={20}>
           <ModalForm
             title="新建项目"
             trigger={
-              <Button type="primary">
+              <Button
+                type="primary"
+                onClick={() => {
+                  getUserList();
+                }}
+              >
                 <PlusOutlined />
                 创建项目
               </Button>
@@ -102,7 +127,7 @@ export default () => {
             <ProFormText name="name" label="项目名称" required placeholder="请输入名称" />
 
             <ProFormSelect
-              options={userOpt}
+              options={userList}
               name="owner"
               label="项目负责人"
               required
@@ -115,38 +140,46 @@ export default () => {
         </Col>
       </Row>
       <Spin spinning={false}>
-        <Row gutter={16} style={{ height: '80vh' }}>
+        <Row gutter={16}>
           {console.log(dataList)}
-          {dataList === undefined ? (
+          {dataList.length === 0 ? (
             <Col span={24} style={{ textAlign: 'center' }}>
               <Empty description="暂无项目" />
             </Col>
           ) : (
-            dataList.map((item) => (
-              <Col key={item.id} span={4} style={{ marginBottom: 12 }}>
-                <Popover content={undefined} placement="rightTop">
-                  <Card
-                    hoverable
-                    bordered={false}
-                    style={{ borderRadius: 16, textAlign: 'center' }}
-                    bodyStyle={{ padding: 16 }}
-                    onClick={undefined}
-                  >
-                    <Avatar style={{ backgroundColor: '#87d068' }} size={64}>
-                      {item.name.slice(0, 2)}
-                    </Avatar>
-                    <p
-                      style={{
-                        textAlign: 'center',
-                        fontWeight: 'bold',
-                        fontSize: 18,
-                        marginTop: 8,
-                      }}
-                    >
-                      {item.name}
-                    </p>
-                  </Card>
-                </Popover>
+            dataList.map((item: any) => (
+              <Col key={item.id} span={6} style={{ marginBottom: 12 }}>
+                {/* Avatar（头像）组件，Popover是悬浮窗口*/}
+                {/* <Popover content={content(item)} placement="rightTop"> */}
+                <Card
+                  hoverable
+                  bordered={false}
+                  style={{ borderRadius: 16, textAlign: 'center' }}
+                  bodyStyle={{ padding: 16 }}
+                  onClick={undefined}
+                >
+                  <Row gutter={16}>
+                    <Col span={6}>
+                      <Avatar style={{ backgroundColor: '#87d068' }} size={64}>
+                        {item.name.slice(0, 2)}
+                      </Avatar>
+                    </Col>
+                    <Col span={18} style={{ textAlign: 'left' }}>
+                      <p
+                        style={{
+                          fontWeight: 'bold',
+                          fontSize: 16,
+                        }}
+                      >
+                        项目名称：{item.name}
+                      </p>
+                      <p>负责人：{item.owner}</p>
+                      <p>描述：{item.description || '无'}</p>
+                      <p>创建时间：{item.create_time}</p>
+                    </Col>
+                  </Row>
+                </Card>
+                {/* </Popover> */}
               </Col>
             ))
           )}
