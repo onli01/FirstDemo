@@ -1,4 +1,5 @@
 import { DeleteTwoTone } from '@ant-design/icons';
+import { Button } from 'antd';
 import { useModel } from 'umi';
 import EditTable from '../Table/EditTable';
 
@@ -36,13 +37,21 @@ export default () => {
         valueType: 'option',
         render: (text: any, record: { id: any }) => {
           return (
-            <DeleteTwoTone
-              style={{ cursor: 'pointer', marginLeft: 8 }}
+            <Button
+              type="primary"
               onClick={() => {
                 onDelete(record.id);
               }}
-              twoToneColor="#eb2f96"
-            />
+            >
+              删除
+            </Button>
+            // <DeleteTwoTone
+            //   style={{ cursor: 'pointer', marginLeft: 8 }}
+            //   onClick={() => {
+            //     onDelete(record.id);
+            //   }}
+            //   twoToneColor="#eb2f96"
+            // />
           );
         },
       },

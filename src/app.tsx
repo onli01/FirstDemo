@@ -9,7 +9,7 @@ import defaultSettings from '../config/defaultSettings';
 // import { currentUser as queryCurrentUser } from './services/user/api';
 
 // const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/user/login';
+const loginPath = '/userLogin';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
