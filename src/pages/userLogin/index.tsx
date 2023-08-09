@@ -36,7 +36,7 @@ const LoginMessage: React.FC<{
 
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState({});
-  const [type, setType] = useState<string>('account');
+  const [type, setType] = useState<string>('login');
   const { initialState, setInitialState } = useModel('@@initialState');
 
   /** 获取用户信息 */
@@ -53,7 +53,7 @@ const Login: React.FC = () => {
   };
 
   /** 此方法会跳转到 redirect 参数所在的位置 */
-  const goto = async () => {
+  const replaceGoto = async () => {
     if (!history) {
       return;
     }
@@ -67,7 +67,7 @@ const Login: React.FC = () => {
   /** 提交 */
   const handleSubmit = async (values: any) => {
     /**type=account 登录*/
-    if (type === 'account') {
+    if (type === 'login') {
       try {
         const resp = await login({
           ...values,
@@ -81,7 +81,7 @@ const Login: React.FC = () => {
           const defaultLoginSuccessMessage = resp.msg;
           message.success(defaultLoginSuccessMessage);
           await fetchUserInfo();
-          await goto();
+          await replaceGoto();
           return;
         } else {
           message.error(resp.msg);
@@ -102,7 +102,7 @@ const Login: React.FC = () => {
         if (resp.code === 200) {
           const defaultLoginSuccessMessage = resp.msg;
           message.success(defaultLoginSuccessMessage);
-          await goto();
+          await replaceGoto(); //页面跳转
           return;
         } else {
           message.error(resp.msg);
@@ -145,7 +145,7 @@ const Login: React.FC = () => {
             ]
           }
           onFinish={async (values) => {
-            if (type === 'account') {
+            if (type === 'login') {
               await handleSubmit(values as API.LoginParams);
             } else {
               await handleSubmit(values as API.RegisterParams);
@@ -153,7 +153,7 @@ const Login: React.FC = () => {
           }}
         >
           <Tabs activeKey={type} onChange={setType}>
-            <Tabs.TabPane key="account" tab={'账号登录'} />
+            <Tabs.TabPane key="login" tab={'账号登录'} />
             {/* <Tabs.TabPane key="mobile" tab={'手机号登录'} /> */}
             <Tabs.TabPane key="register" tab={'注册账号'} />
           </Tabs>
@@ -162,7 +162,7 @@ const Login: React.FC = () => {
             <LoginMessage content={'错误的用户名和密码'} />
           )}
 
-          {type === 'account' && (
+          {type === 'login' && (
             <>
               <ProFormText
                 name="username"

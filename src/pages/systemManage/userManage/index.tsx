@@ -5,7 +5,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { getUserAll } from '@/services/user/api';
 
 interface DataType {
-  user_id: React.Key;
+  user_id: number;
   username: string;
   nickname: string;
   email: string;
@@ -55,19 +55,6 @@ const columns: ColumnsType<DataType> = [
     ),
   },
 ];
-
-// const data: DataType[] = [];
-// for (let i = 0; i < 46; i++) {
-//   data.push({
-//     key: i,
-//     username: `Edward King ${i}`,
-//     nickname: '卡迪夫',
-//     email: 'jdfhjsd@163.com',
-//     status: `1`,
-//     create_time: '2023-08-03 10:10:10',
-//     last_login: '2023-08-03 10:10:10',
-//   });
-// }
 
 export default () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -134,7 +121,12 @@ export default () => {
           </Col>
         </Row>
       </div>
-      <Table rowSelection={rowSelection} columns={columns} dataSource={userList} />
+      <Table
+        rowKey={(record) => record.user_id}
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={userList}
+      />
     </div>
   );
 };

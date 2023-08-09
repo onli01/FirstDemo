@@ -4,6 +4,7 @@ import RightContent from '@/components/RightContent';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { PageLoading, SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from 'umi';
+import { Link } from 'umi';
 import { history } from 'umi';
 import defaultSettings from '../config/defaultSettings';
 // import { currentUser as queryCurrentUser } from './services/user/api';
@@ -29,7 +30,6 @@ export async function getInitialState(): Promise<{
     try {
       // const msg = await queryCurrentUser();
       // return msg.data;
-      // const user = JSON.parse(localStorage.getItem('user') || '');
       return JSON.parse(localStorage.getItem('user') || '');
     } catch (error) {
       //如果拿不到返回登录页
@@ -61,7 +61,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     disableContentMargin: false,
     waterMarkProps: {
       //去掉页面中serati Ma水印
-      // content: initialState?.currentUser?.name,
+      // content: initialState?.currentUser?.username,
     },
     // 此配置用于渲染底部区域
     // footerRender: () => <Footer />,
@@ -86,8 +86,23 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     //     ]
     //   : [],
     menuHeaderRender: undefined,
+    //二级菜单不显示图标，支持二级菜单显示icon
+    menuItemRender: (menuItemProps: any, defaultDom: any) => {
+      if (menuItemProps.isUrl || !menuItemProps.path) {
+        return defaultDom;
+      }
+
+      return (
+        <Link to={menuItemProps.path}>
+          {menuItemProps.pro_layout_parentKeys &&
+            menuItemProps.pro_layout_parentKeys.length > 0 &&
+            menuItemProps.icon}
+          {defaultDom}
+        </Link>
+      );
+    },
     // 自定义 403 页面
-    // unAccessible: <div>unAccessible</div>,
+    unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
     childrenRender: (children: any, props: { location: { pathname: string | string[] } }) => {
       if (initialState?.loading) return <PageLoading />;
